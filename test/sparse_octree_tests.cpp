@@ -56,7 +56,7 @@ namespace sot {
     so.set_occupied(vec_3(0.2, -0.25, 1.0));
 
     SECTION("target is occupied") {
-      REQUIRE( so.occupied(vec_3(1.0, -1.0, 1.1)) );
+      REQUIRE( so.occupied(vec_3(0.23, -0.24, 0.9)) );
     }
 
     SECTION("other section is not occupied") {
