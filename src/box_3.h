@@ -8,6 +8,10 @@ namespace sot {
     double x_min, x_max,
       y_min, y_max,
       z_min, z_max;
+
+    inline double x_mid() const { return (x_max - x_min) / 2.0; }
+    inline double y_mid() const { return (y_max - y_min) / 2.0; }
+    inline double z_mid() const { return (z_max - z_min) / 2.0; }
   };
 
   bool in_interval(const double p, const double min, const double max) {

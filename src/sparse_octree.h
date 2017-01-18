@@ -13,27 +13,128 @@ namespace sot {
   class sp_tree {
     voxel_occupied is_occupied;
 
-    std::unique_ptr<sp_tree> x_max_y_max_z_max;
-    std::unique_ptr<sp_tree> x_max_y_max_z_min;
-    std::unique_ptr<sp_tree> x_max_y_min_z_max;
-    std::unique_ptr<sp_tree> x_max_y_min_z_min;
+    std::vector<sp_tree*> children;
 
-    std::unique_ptr<sp_tree> x_min_y_max_z_max;
-    std::unique_ptr<sp_tree> x_min_y_max_z_min;
-    std::unique_ptr<sp_tree> x_min_y_min_z_max;
-    std::unique_ptr<sp_tree> x_min_y_min_z_min;
+    // std::unique_ptr<sp_tree> x_max_y_max_z_max;
+    // std::unique_ptr<sp_tree> x_max_y_max_z_min;
+    // std::unique_ptr<sp_tree> x_max_y_min_z_max;
+    // std::unique_ptr<sp_tree> x_max_y_min_z_min;
+
+    // std::unique_ptr<sp_tree> x_min_y_max_z_max;
+    // std::unique_ptr<sp_tree> x_min_y_max_z_min;
+    // std::unique_ptr<sp_tree> x_min_y_min_z_max;
+    // std::unique_ptr<sp_tree> x_min_y_min_z_min;
     
   public:
-    sp_tree() : is_occupied(VOXEL_EMPTY),
-		x_max_y_max_z_max(nullptr),
-		x_max_y_max_z_min(nullptr),
-		x_max_y_min_z_max(nullptr),
-		x_max_y_min_z_min(nullptr),
-		x_min_y_max_z_max(nullptr),
-		x_min_y_max_z_min(nullptr),
-		x_min_y_min_z_max(nullptr),
-		x_min_y_min_z_min(nullptr) {}
+    sp_tree() : is_occupied(VOXEL_EMPTY) {
+      for (unsigned i = 0; i < 8; i++) {
+	children.push_back(nullptr);
+      }
+    }
+		// x_max_y_max_z_max(nullptr),
+		// x_max_y_max_z_min(nullptr),
+		// x_max_y_min_z_max(nullptr),
+		// x_max_y_min_z_min(nullptr),
+		// x_min_y_max_z_max(nullptr),
+		// x_min_y_max_z_min(nullptr),
+		// x_min_y_min_z_max(nullptr),
+		// x_min_y_min_z_min(nullptr) {}
 		
+
+    std::pair<box_3, int> find_octant(const vec_3 location,
+				      const box_3 box) const {
+      assert( in_box( location, box ) );
+
+      // In x min
+      if (in_interval(location.x(), box.x_min, box.x_mid())) {
+	// In y min
+	if (in_interval(location.y(), box.y_min, box.y_mid())) {
+	  // In z min
+	  if (in_interval(location.z(), box.z_min, box.z_mid())) {
+
+	    box_3 b{box.x_min, box.x_mid(),
+		box.y_min, box.y_mid(),
+		box.z_min, box.z_mid()};
+
+	    return std::make_pair(b, 0); //x_min_y_min_z_min.get());
+	  }
+	  // In z max
+	  else {
+	    box_3 b{box.x_min, box.x_mid(),
+		box.y_min, box.y_mid(),
+		box.z_mid(), box.z_max};
+
+	    return std::make_pair(b, 1); //x_min_y_min_z_max.get());
+	  }
+	}
+	// In y max
+	else {
+	  // In z min
+	  if (in_interval(location.z(), box.z_min, box.z_mid())) {
+	    box_3 b{box.x_min, box.x_mid(),
+		box.y_mid(), box.y_max,
+		box.z_min, box.z_mid()};
+
+	    return std::make_pair(b, 2); //x_min_y_max_z_min.get());
+	    
+	  }
+	  // In z max
+	  else {
+	    box_3 b{box.x_min, box.x_mid(),
+		box.y_mid(), box.y_max,
+		box.z_mid(), box.z_max};
+
+	    return std::make_pair(b, 3); //x_min_y_max_z_max.get());
+	    
+	  }
+	}
+      }
+      // In x max
+      else {
+	// In y min
+	if (in_interval(location.y(), box.y_min, box.y_mid())) {
+	  // In z min
+	  if (in_interval(location.z(), box.z_min, box.z_mid())) {
+
+	    box_3 b{box.x_mid(), box.x_max,
+		box.y_min, box.y_mid(),
+		box.z_min, box.z_mid()};
+
+	    return std::make_pair(b, 4); //x_max_y_min_z_min.get());
+	  }
+	  // In z max
+	  else {
+	    box_3 b{box.x_mid(), box.x_max,
+		box.y_min, box.y_mid(),
+		box.z_mid(), box.z_max};
+
+	    return std::make_pair(b, 5); //x_max_y_min_z_max.get());
+	  }
+	}
+	// In y max
+	else {
+	  // In z min
+	  if (in_interval(location.z(), box.z_min, box.z_mid())) {
+	    box_3 b{box.x_mid(), box.x_max,
+		box.y_mid(), box.y_max,
+		box.z_min, box.z_mid()};
+
+	    return std::make_pair(b, 6); //x_max_y_max_z_min.get());
+	    
+	  }
+	  // In z max
+	  else {
+	    box_3 b{box.x_mid(), box.x_max,
+		box.y_mid(), box.y_max,
+		box.z_mid(), box.z_max};
+
+	    return std::make_pair(b, 7); //x_max_y_max_z_max.get());
+	    
+	  }
+	}
+	
+      }
+    }
 
     void set_occupied(const int depth,
 		      const int max_depth,
@@ -49,7 +150,17 @@ namespace sot {
 
       std::cout << "Depth = " << depth << std::endl;
       std::cout << "Max depth = " << max_depth << std::endl;
-      assert(false);
+
+      is_occupied = VOXEL_MIXED;
+
+      std::pair<box_3, int> next_octant = find_octant(location, box);
+
+      if (children[next_octant.second] == nullptr) {
+	children[next_octant.second] = new sp_tree();
+      }
+
+      children[next_octant.second]->set_occupied(depth + 1, max_depth, location, next_octant.first);
+      
     }
 
     bool occupied(const vec_3 location,
@@ -65,7 +176,16 @@ namespace sot {
 	return is_occupied == VOXEL_OCCUPIED;
       }
 
-      assert(false);
+      std::pair<box_3, int> next_octant = find_octant(location, box);
+
+      return children[next_octant.second]->occupied(location, next_octant.first);
+    }
+
+    ~sp_tree() {
+
+      for (sp_tree* c : children) {
+	delete c;
+      }
     }
 
   };
