@@ -23,22 +23,44 @@ namespace sot {
   TEST_CASE("max x, max y, max z quadrant only one occupied") {
     sparse_octree so(vec_3(0.0, 0.0, 0.0), 2.0, 2);
 
-    std::cout << "Before set" << std::endl;
-
-    //so.print_tree();
-
-    std::cout << "setting occupied" << std::endl;
-
     so.set_occupied(vec_3(0.5, 0.5, 0.5));
 
-    //so.print_tree();
-    
     SECTION("target is occupied") {
       REQUIRE( so.occupied(vec_3(1.0, 1.0, 1.0)) );
     }
 
     SECTION("other section is not occupied") {
       REQUIRE( !so.occupied(vec_3(-1.0, -1.0, 1.0)) );
+    }
+    
+  }
+
+  TEST_CASE("max x, max y, min z quadrant only one occupied") {
+    sparse_octree so(vec_3(0.0, 0.0, 0.0), 2.0, 2);
+
+    so.set_occupied(vec_3(0.5, 0.5, -0.5));
+
+    SECTION("target is occupied") {
+      REQUIRE( so.occupied(vec_3(1.0, 1.0, -1.0)) );
+    }
+
+    SECTION("other section is not occupied") {
+      REQUIRE( !so.occupied(vec_3(-1.0, 0.0, 1.0)) );
+    }
+    
+  }
+
+  TEST_CASE("max x, min y, max z quadrant only one occupied") {
+    sparse_octree so(vec_3(0.0, 0.0, 0.0), 2.0, 2);
+
+    so.set_occupied(vec_3(0.2, -0.25, 1.0));
+
+    SECTION("target is occupied") {
+      REQUIRE( so.occupied(vec_3(1.0, -1.0, 1.1)) );
+    }
+
+    SECTION("other section is not occupied") {
+      REQUIRE( !so.occupied(vec_3(1.0, -0.01, -1.0)) );
     }
     
   }
