@@ -51,7 +51,7 @@ namespace sot {
   }
 
   TEST_CASE("max x, min y, max z quadrant only one occupied") {
-    sparse_octree so(vec_3(0.0, 0.0, 0.0), 2.0, 2);
+    sparse_octree so(vec_3(0.0, 0.0, 0.0), 2.0, 4);
 
     so.set_occupied(vec_3(0.2, -0.25, 1.0));
 
