@@ -143,6 +143,8 @@ namespace sot {
 
       assert( in_box( location, box ) );
 
+      assert(children.size() == 8);
+
       if (depth == max_depth) {
 	is_occupied = VOXEL_OCCUPIED;
 	return;
@@ -168,17 +170,40 @@ namespace sot {
 
       assert( in_box( location, box ) );
 
-      if (!(is_occupied == VOXEL_MIXED)) {
+      assert(children.size() == 8);
+
+
+      std::cout << "octant box" << std::endl;
+      std::cout << box.x_min << ", " << box.x_max << std::endl;
+      std::cout << box.y_min << ", " << box.y_max << std::endl;
+      std::cout << box.z_min << ", " << box.z_max << std::endl;
+      
+      if (is_occupied != VOXEL_MIXED) {
 
 	assert((is_occupied == VOXEL_OCCUPIED) ||
 	       (is_occupied == VOXEL_EMPTY));
+
+	std::cout << "DONE" << std::endl;
 
 	return is_occupied == VOXEL_OCCUPIED;
       }
 
       std::pair<box_3, int> next_octant = find_octant(location, box);
 
-      return children[next_octant.second]->occupied(location, next_octant.first);
+      std::cout << "Next octant index = " << next_octant.second << std::endl;
+
+      if (children[next_octant.second] == nullptr) {
+	std::cout << "NULL BOX" << std::endl;
+	return false;
+      }
+
+      box_3 next_box = next_octant.first;
+      std::cout << "Next box = " << std::endl;
+      std::cout << next_box.x_min << ", " << next_box.x_max << std::endl;
+      std::cout << next_box.y_min << ", " << next_box.y_max << std::endl;
+      std::cout << next_box.z_min << ", " << next_box.z_max << std::endl;
+      
+      return (children[next_octant.second])->occupied(location, next_octant.first);
     }
 
     ~sp_tree() {
@@ -186,6 +211,21 @@ namespace sot {
       for (sp_tree* c : children) {
 	delete c;
       }
+    }
+
+    void print_tree() {
+      std::cout << "OCCUPIED = " << is_occupied << std::endl;
+
+      for (auto c : children) {
+	if (c != nullptr) {
+	  std::cout << "-- NEXT" << std::endl;
+	  c->print_tree();
+	  std::cout << "-- DONE" << std::endl;
+	} else {
+	  std::cout << "NULL CHILD" << std::endl;
+	}
+      }
+
     }
 
   };
@@ -234,6 +274,13 @@ namespace sot {
 
       tree->set_occupied(1, max_depth, location, bounding_box());
     }
+
+    void print_tree() {
+      std::cout << "levels = " << max_depth << std::endl;
+      tree->print_tree();
+    }
+
+
 
   };
 
