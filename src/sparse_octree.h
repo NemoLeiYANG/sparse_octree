@@ -150,8 +150,8 @@ namespace sot {
 	return;
       }
 
-      std::cout << "Depth = " << depth << std::endl;
-      std::cout << "Max depth = " << max_depth << std::endl;
+      // std::cout << "Depth = " << depth << std::endl;
+      // std::cout << "Max depth = " << max_depth << std::endl;
 
       is_occupied = VOXEL_MIXED;
 
@@ -173,35 +173,35 @@ namespace sot {
       assert(children.size() == 8);
 
 
-      std::cout << "octant box" << std::endl;
-      std::cout << box.x_min << ", " << box.x_max << std::endl;
-      std::cout << box.y_min << ", " << box.y_max << std::endl;
-      std::cout << box.z_min << ", " << box.z_max << std::endl;
+      // std::cout << "octant box" << std::endl;
+      // std::cout << box.x_min << ", " << box.x_max << std::endl;
+      // std::cout << box.y_min << ", " << box.y_max << std::endl;
+      // std::cout << box.z_min << ", " << box.z_max << std::endl;
       
       if (is_occupied != VOXEL_MIXED) {
 
 	assert((is_occupied == VOXEL_OCCUPIED) ||
 	       (is_occupied == VOXEL_EMPTY));
 
-	std::cout << "DONE" << std::endl;
+	//std::cout << "DONE" << std::endl;
 
 	return is_occupied == VOXEL_OCCUPIED;
       }
 
       std::pair<box_3, int> next_octant = find_octant(location, box);
 
-      std::cout << "Next octant index = " << next_octant.second << std::endl;
+      //std::cout << "Next octant index = " << next_octant.second << std::endl;
 
       if (children[next_octant.second] == nullptr) {
-	std::cout << "NULL BOX" << std::endl;
+	//std::cout << "NULL BOX" << std::endl;
 	return false;
       }
 
       box_3 next_box = next_octant.first;
-      std::cout << "Next box = " << std::endl;
-      std::cout << next_box.x_min << ", " << next_box.x_max << std::endl;
-      std::cout << next_box.y_min << ", " << next_box.y_max << std::endl;
-      std::cout << next_box.z_min << ", " << next_box.z_max << std::endl;
+      // std::cout << "Next box = " << std::endl;
+      // std::cout << next_box.x_min << ", " << next_box.x_max << std::endl;
+      // std::cout << next_box.y_min << ", " << next_box.y_max << std::endl;
+      // std::cout << next_box.z_min << ", " << next_box.z_max << std::endl;
       
       return (children[next_octant.second])->occupied(location, next_octant.first);
     }
