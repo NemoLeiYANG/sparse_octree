@@ -215,8 +215,6 @@ namespace sot {
   protected:
     vec_3 center;
     double len;
-    // Not needed?
-    int depth;
     int max_depth;
 
     std::unique_ptr<sp_tree> tree;
@@ -225,7 +223,8 @@ namespace sot {
     sparse_octree(const vec_3 p_center,
 		  const double p_len,
 		  const int max_depth) :
-      center(p_center), len(p_len), depth(1), max_depth(max_depth) {
+      // center(p_center), len(p_len), depth(1), max_depth(max_depth) {
+      center(p_center), len(p_len), max_depth(max_depth) {
       assert( max_depth > 0 );
 
       tree = std::unique_ptr<sp_tree>(new sp_tree());
