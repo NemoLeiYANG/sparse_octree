@@ -15,31 +15,12 @@ namespace sot {
 
     std::vector<sp_tree*> children;
 
-    // std::unique_ptr<sp_tree> x_max_y_max_z_max;
-    // std::unique_ptr<sp_tree> x_max_y_max_z_min;
-    // std::unique_ptr<sp_tree> x_max_y_min_z_max;
-    // std::unique_ptr<sp_tree> x_max_y_min_z_min;
-
-    // std::unique_ptr<sp_tree> x_min_y_max_z_max;
-    // std::unique_ptr<sp_tree> x_min_y_max_z_min;
-    // std::unique_ptr<sp_tree> x_min_y_min_z_max;
-    // std::unique_ptr<sp_tree> x_min_y_min_z_min;
-    
   public:
     sp_tree() : is_occupied(VOXEL_EMPTY) {
       for (unsigned i = 0; i < 8; i++) {
 	children.push_back(nullptr);
       }
     }
-		// x_max_y_max_z_max(nullptr),
-		// x_max_y_max_z_min(nullptr),
-		// x_max_y_min_z_max(nullptr),
-		// x_max_y_min_z_min(nullptr),
-		// x_min_y_max_z_max(nullptr),
-		// x_min_y_max_z_min(nullptr),
-		// x_min_y_min_z_max(nullptr),
-		// x_min_y_min_z_min(nullptr) {}
-		
 
     std::pair<box_3, int> find_octant(const vec_3 location,
 				      const box_3 box) const {
