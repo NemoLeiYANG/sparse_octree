@@ -4,6 +4,8 @@
 
 #include "sparse_octree.h"
 
+using namespace std;
+
 namespace sot {
 
   TEST_CASE("Empty octree") {
@@ -63,6 +65,24 @@ namespace sot {
       REQUIRE( !so.occupied(vec_3(1.0, -0.01, -1.0)) );
     }
     
+  }
+
+  TEST_CASE("Testing octree compression") {
+    sparse_octree so( vec_3(0.0, 0.0, 0.0), 2.0, 2 );
+
+    cout << "# of nodes = " << so.total_nodes() << endl;
+    
+    so.set_occupied(-0.5, -0.5, -0.5);
+    so.set_occupied(-0.5, -0.5, 0.5);
+    so.set_occupied(-0.5, 0.5, -0.5);
+    so.set_occupied(-0.5, 0.5, 0.5);
+
+    so.set_occupied(0.5, -0.5, -0.5);
+    so.set_occupied(0.5, -0.5, 0.5);
+    so.set_occupied(0.5, 0.5, -0.5);
+    so.set_occupied(0.5, 0.5, 0.5);
+
+    cout << "# of nodes = " << so.total_nodes() << endl;
   }
   
 }

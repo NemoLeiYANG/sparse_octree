@@ -187,6 +187,18 @@ namespace sot {
       return (children[next_octant.second])->occupied(location, next_octant.first);
     }
 
+    int total_nodes() const {
+      int nodes = 1;
+
+      for (sp_tree* child : children) {
+	if (child != nullptr) {
+	  nodes += child->total_nodes();
+	}
+      }
+
+      return nodes;
+    }
+
     ~sp_tree() {
 
       for (sp_tree* c : children) {
@@ -194,7 +206,7 @@ namespace sot {
       }
     }
 
-    void print_tree() {
+    void print_tree() const {
       std::cout << "OCCUPIED = " << is_occupied << std::endl;
 
       for (auto c : children) {
@@ -223,8 +235,8 @@ namespace sot {
     sparse_octree(const vec_3 p_center,
 		  const double p_len,
 		  const int max_depth) :
-      // center(p_center), len(p_len), depth(1), max_depth(max_depth) {
       center(p_center), len(p_len), max_depth(max_depth) {
+
       assert( max_depth > 0 );
 
       tree = std::unique_ptr<sp_tree>(new sp_tree());
@@ -255,7 +267,16 @@ namespace sot {
       tree->set_occupied(1, max_depth, location, bounding_box());
     }
 
-    void print_tree() {
+    void set_occupied(const double x, const double y, const double z) {
+      vec_3 location(x, y, z);
+      set_occupied(location);
+    }
+
+    int total_nodes() const {
+      return tree->total_nodes();
+    }
+
+    void print_tree() const {
       std::cout << "levels = " << max_depth << std::endl;
       tree->print_tree();
     }
