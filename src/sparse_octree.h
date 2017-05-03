@@ -221,6 +221,42 @@ namespace sot {
 
     }
 
+    void compress_nodes() {
+      if (is_occupied == VOXEL_MIXED) {
+	bool all_occupied = true;
+	for (sp_tree* child : children) {
+	  if (child != nullptr && (child->is_occupied != VOXEL_OCCUPIED)) {
+	    all_occupied = false;
+	    break;
+	  }
+	}
+
+	if (all_occupied) {
+	  std::cout << "All occupied" << std::endl;
+	  for (sp_tree* child : children) {
+	    std::cout << "child before" << std::endl;
+	    delete child;
+	    std::cout << "child after delete" << std::endl;
+	  }
+
+	  for (unsigned i = 0; i < 8; i++) {
+	    children[i] = nullptr;
+	  }
+
+	  this->is_occupied = VOXEL_OCCUPIED;
+
+	  return;
+	}
+      }
+
+      for (sp_tree* child : children) {
+	if (child != nullptr) {
+	  child->compress_nodes();
+	}
+      }
+
+    }
+
   };
 
   class sparse_octree {
@@ -282,6 +318,9 @@ namespace sot {
     }
 
 
+    void compress_nodes() {
+      tree->compress_nodes();
+    }
 
   };
 

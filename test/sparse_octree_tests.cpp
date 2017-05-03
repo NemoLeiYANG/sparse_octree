@@ -83,6 +83,12 @@ namespace sot {
     so.set_occupied(0.5, 0.5, 0.5);
 
     cout << "# of nodes = " << so.total_nodes() << endl;
+
+    so.compress_nodes();
+
+    cout << "After compression" << endl;
+
+    REQUIRE(so.total_nodes() == 1);
   }
   
 }
