@@ -88,7 +88,27 @@ namespace sot {
 
     cout << "After compression" << endl;
 
-    REQUIRE(so.total_nodes() == 1);
+    SECTION("Compress full tree") {
+      REQUIRE(so.total_nodes() == 1);
+    }
+
+    SECTION("Compress empty tree") {
+      so.set_empty(-0.5, -0.5, -0.5);
+      so.set_empty(-0.5, -0.5, 0.5);
+      so.set_empty(-0.5, 0.5, -0.5);
+      so.set_empty(-0.5, 0.5, 0.5);
+
+      so.set_empty(0.5, -0.5, -0.5);
+      so.set_empty(0.5, -0.5, 0.5);
+      so.set_empty(0.5, 0.5, -0.5);
+      so.set_empty(0.5, 0.5, 0.5);
+
+      so.compress_nodes();
+
+      REQUIRE(so.total_nodes() == 1);
+      
+    }
   }
+
   
 }

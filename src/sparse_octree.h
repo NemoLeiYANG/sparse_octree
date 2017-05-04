@@ -117,6 +117,15 @@ namespace sot {
       }
     }
 
+    void set_empty(const int depth,
+		   const int max_depth,
+		   const vec_3 location,
+		   const box_3 box) {
+      assert( in_box( location, box ) );
+
+      
+    }
+    
     void set_occupied(const int depth,
 		      const int max_depth,
 		      const vec_3 location,
@@ -234,9 +243,7 @@ namespace sot {
 	if (all_occupied) {
 	  std::cout << "All occupied" << std::endl;
 	  for (sp_tree* child : children) {
-	    std::cout << "child before" << std::endl;
 	    delete child;
-	    std::cout << "child after delete" << std::endl;
 	  }
 
 	  for (unsigned i = 0; i < 8; i++) {
@@ -303,11 +310,23 @@ namespace sot {
       tree->set_occupied(1, max_depth, location, bounding_box());
     }
 
+    void set_empty(const vec_3 location) {
+      assert( in_box( location, bounding_box() ) );
+
+      tree->set_empty(1, max_depth, location, bounding_box());
+    }
+    
+
     void set_occupied(const double x, const double y, const double z) {
       vec_3 location(x, y, z);
       set_occupied(location);
     }
 
+    void set_empty(const double x, const double y, const double z) {
+      vec_3 location(x, y, z);
+      set_empty(location);
+    }
+    
     int total_nodes() const {
       return tree->total_nodes();
     }
