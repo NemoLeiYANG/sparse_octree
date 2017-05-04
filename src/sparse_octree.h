@@ -155,6 +155,11 @@ namespace sot {
       
     }
 
+    bool empty(const vec_3 location,
+	       const box_3 box) const {
+      return !occupied(location, box);
+    }
+    
     bool occupied(const vec_3 location,
 		  const box_3 box) const {
 
@@ -304,6 +309,17 @@ namespace sot {
       return tree->occupied(location, bounding_box());
     }
 
+    bool empty(const vec_3 location) const {
+      assert( in_box( location, bounding_box() ) );
+
+      return tree->empty(location, bounding_box());
+    }
+
+    bool empty(const double x, const double y, const double z) const {
+      vec_3 location(x, y, z);
+      return empty(location);
+    }
+    
     void set_occupied(const vec_3 location) {
       assert( in_box( location, bounding_box() ) );
 

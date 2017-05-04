@@ -19,7 +19,15 @@ namespace sot {
 
     so.set_occupied(vec_3(1.0, 2.1, 3.0));
 
-    REQUIRE( so.occupied(vec_3(1.0, 2.1, 3.0)) );
+    SECTION("Set cell is occupied") {
+      REQUIRE( so.occupied(vec_3(1.0, 2.1, 3.0)) );
+    }
+
+    SECTION("Set occupied then empty") {
+      so.set_empty(1.0, 2.1, 3.0);
+
+      REQUIRE(so.empty(1.0, 2.1, 3.0));
+    }
   }
 
   TEST_CASE("max x, max y, max z quadrant only one occupied") {
