@@ -123,6 +123,27 @@ namespace sot {
 		   const box_3 box) {
       assert( in_box( location, box ) );
 
+      assert( in_box( location, box ) );
+
+      assert(children.size() == 8);
+
+      if (depth == max_depth) {
+	is_occupied = VOXEL_EMPTY;
+	return;
+      }
+
+      // std::cout << "Depth = " << depth << std::endl;
+      // std::cout << "Max depth = " << max_depth << std::endl;
+
+      is_occupied = VOXEL_MIXED;
+
+      std::pair<box_3, int> next_octant = find_octant(location, box);
+
+      if (children[next_octant.second] == nullptr) {
+	children[next_octant.second] = new sp_tree();
+      }
+
+      children[next_octant.second]->set_empty(depth + 1, max_depth, location, next_octant.first);
       
     }
     
@@ -259,6 +280,30 @@ namespace sot {
 
 	  return;
 	}
+
+	bool all_empty = true;
+	for (sp_tree* child : children) {
+	  if (child != nullptr && (child->is_occupied != VOXEL_EMPTY)) {
+	    all_empty = false;
+	    break;
+	  }
+	}
+
+	if (all_empty) {
+	  std::cout << "All empty" << std::endl;
+	  for (sp_tree* child : children) {
+	    delete child;
+	  }
+
+	  for (unsigned i = 0; i < 8; i++) {
+	    children[i] = nullptr;
+	  }
+
+	  this->is_occupied = VOXEL_EMPTY;
+
+	  return;
+	}
+
       }
 
       for (sp_tree* child : children) {
