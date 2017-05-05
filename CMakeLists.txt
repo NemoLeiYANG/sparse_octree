@@ -24,7 +24,7 @@ add_executable(all-tests ${TEST_FILES})
 # /opt/local/bin/cmake -DVTK_DIR:PATH=/Users/dillon/Downloads/VTK-build/ -DCMAKE_BUILD_TYPE=Debug . 
 
 if(VTK_LIBRARIES)
-#  target_link_libraries(AddCell ${VTK_LIBRARIES})
+  target_link_libraries(all-tests ${VTK_LIBRARIES})
 else()
-#  target_link_libraries(AddCell vtkHybrid vtkWidgets)
+  target_link_libraries(all-tests vtkHybrid vtkWidgets)
 endif()
