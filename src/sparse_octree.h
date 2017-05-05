@@ -213,7 +213,7 @@ namespace sot {
 	return false;
       }
 
-      box_3 next_box = next_octant.first;
+      //box_3 next_box = next_octant.first;
       // std::cout << "Next box = " << std::endl;
       // std::cout << next_box.x_min << ", " << next_box.x_max << std::endl;
       // std::cout << next_box.y_min << ", " << next_box.y_max << std::endl;

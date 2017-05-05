@@ -13,9 +13,11 @@ SET(CMAKE_CXX_FLAGS  "${CMAKE_CXX_FLAGS} ${EXTRA_CXX_COMPILE_FLAGS}")
 
 INCLUDE_DIRECTORIES(./src/)
 
+SET(CPP_FILES ./src/vtk_debug.cpp)
+
 SET(TEST_FILES ./test/sparse_octree_tests.cpp)
 
-add_executable(all-tests ${TEST_FILES})
+add_executable(all-tests ${TEST_FILES} ${CPP_FILES})
 #target_link_libraries(all-tests )
 
 ######### VTK Example ##########
