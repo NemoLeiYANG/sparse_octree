@@ -314,6 +314,20 @@ namespace sot {
 
     }
 
+    std::vector<vec_3> centroids(const box_3 bb) const {
+      vec_3 m0(bb.x_min, bb.y_min, bb.z_min);
+      vec_3 m1(bb.x_min, bb.y_min, bb.z_max);
+      vec_3 m2(bb.x_min, bb.y_max, bb.z_min);
+      vec_3 m3(bb.x_min, bb.y_max, bb.z_max);
+
+      vec_3 m4(bb.x_max, bb.y_min, bb.z_min);
+      vec_3 m5(bb.x_max, bb.y_min, bb.z_max);
+      vec_3 m6(bb.x_max, bb.y_max, bb.z_min);
+      vec_3 m7(bb.x_max, bb.y_max, bb.z_max);
+
+      return {m0, m1, m2, m3, m4, m5, m6, m7};
+    }
+
   };
 
   class sparse_octree {
@@ -400,6 +414,10 @@ namespace sot {
 
     void compress_nodes() {
       tree->compress_nodes();
+    }
+
+    std::vector<vec_3> centroids() const {
+      return tree->centroids(bounding_box());
     }
 
   };

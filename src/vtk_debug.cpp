@@ -71,13 +71,23 @@ namespace sot {
   }
 
   vtkSmartPointer<vtkPolyData>
-  polydata_for_sparse_octree(const sparse_octree& df) {
+  polydata_for_sparse_octree(const sparse_octree& tree) {
     vtkSmartPointer<vtkPoints> points =
       vtkSmartPointer<vtkPoints>::New();
  
     vtkSmartPointer<vtkCellArray> vertices =
       vtkSmartPointer<vtkCellArray>::New();
-    
+
+    for (auto point : tree.centroids()) {
+      auto id = points->InsertNextPoint(point.x(), point.y(), point.z());
+
+      vtkSmartPointer<vtkVertex> vertex = 
+	vtkSmartPointer<vtkVertex>::New();
+
+      vertex->GetPointIds()->SetId(0, id);
+      vertices->InsertNextCell(vertex);
+
+    }
     // for (int i = 0; i < df.num_x_elems; i++) {
     //   for (int j = 0; j < df.num_y_elems; j++) {
 
@@ -98,6 +108,10 @@ namespace sot {
     polydata->SetVerts(vertices);
 
     return polydata;
+  }
+
+  void vtk_debug_sparse_octree(const sparse_octree& tree) {
+    visualize_polydatas({polydata_for_sparse_octree(tree)});
   }
   
 }

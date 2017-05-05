@@ -3,6 +3,7 @@
 #include "catch.hpp"
 
 #include "sparse_octree.h"
+#include "vtk_debug.h"
 
 using namespace std;
 
@@ -34,6 +35,8 @@ namespace sot {
     sparse_octree so(vec_3(0.0, 0.0, 0.0), 2.0, 2);
 
     so.set_occupied(vec_3(0.5, 0.5, 0.5));
+
+    vtk_debug_sparse_octree(so);
 
     SECTION("target is occupied") {
       REQUIRE( so.occupied(vec_3(1.0, 1.0, 1.0)) );
