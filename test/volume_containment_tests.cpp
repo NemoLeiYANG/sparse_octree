@@ -38,7 +38,7 @@ namespace sot {
     sparse_octree so( vec_3( 1.0, 1.0, 1.0 ), 0.5, 5 );
     so.set_all_occupied();
 
-    vec_3 test_pt_outside( 1.0, 1.49, 1.0 );
+    vec_3 test_pt_outside( 1.0, 1.49, 1.1 );
 
     cout << "Total nodes = " << so.total_nodes() << endl;
 
