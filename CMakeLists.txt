@@ -13,7 +13,9 @@ SET(CMAKE_CXX_FLAGS  "${CMAKE_CXX_FLAGS} ${EXTRA_CXX_COMPILE_FLAGS}")
 
 INCLUDE_DIRECTORIES(./src/)
 
-SET(CPP_FILES ./src/vtk_debug.cpp)
+SET(CPP_FILES ./src/vtk_debug.cpp
+	      ./src/sparse_octree.cpp
+	      ./src/cylinder.cpp)
 
 SET(TEST_FILES ./test/sparse_octree_tests.cpp
 	       ./test/volume_containment_tests.cpp)
