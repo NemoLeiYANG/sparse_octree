@@ -36,14 +36,32 @@ namespace sot {
   }
 
   TEST_CASE("Cylinder contains part of the volume") {
-    sparse_octree so( vec_3( 1.0, 1.0, 1.0 ), 0.5, 5 );
+    sparse_octree so( vec_3( 1.0, 1.0, 1.0 ), 0.5, 6 );
+    so.set_all_occupied();
+
+    vec_3 test_pt_outside( 1.49, 1.0, 1.1 );
+
+    //cout << "Total nodes = " << so.total_nodes() << endl;
+
+    cylinder c( vec_3(2.0, 1.0, 1.00), 2.0, 1.5);
+
+    remove_contained_volume_convex( c, so );
+
+    // cout << "Total nodes = " << so.total_nodes() << endl;
+    // vtk_debug_sparse_octree( so );
+
+    REQUIRE( !so.occupied( test_pt_outside ) );
+  }
+
+  TEST_CASE("Cylinder contains part of the volume halfway") {
+    sparse_octree so( vec_3( 1.0, 1.0, 1.0 ), 0.5, 6 );
     so.set_all_occupied();
 
     vec_3 test_pt_outside( 1.49, 1.0, 1.1 );
 
     cout << "Total nodes = " << so.total_nodes() << endl;
 
-    cylinder c( vec_3(2.0, 1.0, 1.00), 2.0, 1.5);
+    cylinder c( vec_3(1.5, 1.0, 1.0), 2.0, 0.1);
 
     remove_contained_volume_convex( c, so );
 
@@ -52,5 +70,5 @@ namespace sot {
 
     REQUIRE( !so.occupied( test_pt_outside ) );
   }
-
+  
 }
