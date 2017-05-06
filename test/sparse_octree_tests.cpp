@@ -36,8 +36,6 @@ namespace sot {
 
     so.set_occupied(vec_3(0.5, 0.5, 0.5));
 
-    vtk_debug_sparse_octree(so);
-
     SECTION("target is occupied") {
       REQUIRE( so.occupied(vec_3(1.0, 1.0, 1.0)) );
     }
@@ -81,8 +79,6 @@ namespace sot {
   TEST_CASE("Testing octree compression") {
     sparse_octree so( vec_3(0.0, 0.0, 0.0), 2.0, 2 );
 
-    cout << "# of nodes = " << so.total_nodes() << endl;
-    
     so.set_occupied(-0.5, -0.5, -0.5);
     so.set_occupied(-0.5, -0.5, 0.5);
     so.set_occupied(-0.5, 0.5, -0.5);
@@ -93,11 +89,7 @@ namespace sot {
     so.set_occupied(0.5, 0.5, -0.5);
     so.set_occupied(0.5, 0.5, 0.5);
 
-    cout << "# of nodes = " << so.total_nodes() << endl;
-
     so.compress_nodes();
-
-    cout << "After compression" << endl;
 
     SECTION("Compress full tree") {
       REQUIRE(so.total_nodes() == 1);

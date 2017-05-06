@@ -256,6 +256,16 @@ namespace sot {
 
     }
 
+    void reset_children() {
+      for (sp_tree* child : children) {
+	delete child;
+      }
+
+      for (unsigned i = 0; i < 8; i++) {
+	children[i] = nullptr;
+      }
+    }
+
     void compress_nodes() {
       if (is_occupied == VOXEL_MIXED) {
 	bool all_occupied = true;
@@ -267,14 +277,7 @@ namespace sot {
 	}
 
 	if (all_occupied) {
-	  std::cout << "All occupied" << std::endl;
-	  for (sp_tree* child : children) {
-	    delete child;
-	  }
-
-	  for (unsigned i = 0; i < 8; i++) {
-	    children[i] = nullptr;
-	  }
+	  reset_children();
 
 	  this->is_occupied = VOXEL_OCCUPIED;
 
@@ -290,14 +293,7 @@ namespace sot {
 	}
 
 	if (all_empty) {
-	  std::cout << "All empty" << std::endl;
-	  for (sp_tree* child : children) {
-	    delete child;
-	  }
-
-	  for (unsigned i = 0; i < 8; i++) {
-	    children[i] = nullptr;
-	  }
+	  reset_children();
 
 	  this->is_occupied = VOXEL_EMPTY;
 
@@ -325,7 +321,9 @@ namespace sot {
       vec_3 m6(bb.x_max, bb.y_max, bb.z_min);
       vec_3 m7(bb.x_max, bb.y_max, bb.z_max);
 
-      return {m0, m1, m2, m3, m4, m5, m6, m7};
+      std::vector<vec_3> pts{m0, m1, m2, m3, m4, m5, m6, m7};
+      
+      return pts;
     }
 
   };
