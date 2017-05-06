@@ -386,7 +386,7 @@ namespace sot {
     std::vector<vec_3> centroids(const box_3 bb) const {
       std::vector<vec_3> pts;
 
-      if ((is_occupied == VOXEL_MIXED) || (is_occupied == VOXEL_OCCUPIED)) {
+      if (is_occupied == VOXEL_OCCUPIED) {
 	vec_3 m0(bb.x_min, bb.y_min, bb.z_min);
 	vec_3 m1(bb.x_min, bb.y_min, bb.z_max);
 	vec_3 m2(bb.x_min, bb.y_max, bb.z_min);
