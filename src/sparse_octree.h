@@ -464,7 +464,7 @@ namespace sot {
       }
 
       if (not_contained.size() == 8) {
-	std::cout << "None contained" << std::endl;
+	//std::cout << "None contained" << std::endl;
 	return;
       }
 
@@ -472,24 +472,24 @@ namespace sot {
 	partially_contained.push_back(f);
       }
 
-      std::cout << "# partially contained = " << partially_contained.size() <<
-	std::endl;
+      // std::cout << "# partially contained = " << partially_contained.size() <<
+      // 	std::endl;
 
       // If the voxel was previously fully occupied break it
       // down to its occupied children
       if (is_occupied == VOXEL_OCCUPIED) {
-	std::cout << "Setting children occupied" << std::endl;
+	//std::cout << "Setting children occupied" << std::endl;
 	initialize_children_occupied();
 	is_occupied = VOXEL_MIXED;
       }
 
       for (auto child_index : partially_contained) {
 
-	std::cout << "Next index = " << child_index << std::endl;
+	//std::cout << "Next index = " << child_index << std::endl;
 
 	if (children[child_index] != nullptr) {
 
-	  std::cout << "Removing volume for child box " << child_index << std::endl;
+	  //std::cout << "Removing volume for child box " << child_index << std::endl;
 
 	  box_3 child_box = octant_box(child_index, bounding_box);
 	  children[child_index]->remove_contained_volume_convex(convex_volume,

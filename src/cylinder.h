@@ -10,7 +10,7 @@ namespace sot {
     double x_diff = pt.x() - center.x();
     double x_diff_sq = x_diff*x_diff;
 
-    double y_diff = pt.x() - center.x();
+    double y_diff = pt.y() - center.y();
     double y_diff_sq = y_diff*y_diff;
 
     double dist = sqrt( x_diff_sq + y_diff_sq );

@@ -53,11 +53,11 @@ namespace sot {
     REQUIRE( !so.occupied( test_pt_outside ) );
   }
 
-  TEST_CASE("Cylinder contains part of the volume halfway") {
+  TEST_CASE("Smaller cylinder with out of range point") {
     sparse_octree so( vec_3( 1.0, 1.0, 1.0 ), 0.5, 6 );
     so.set_all_occupied();
 
-    vec_3 test_pt_outside( 1.49, 1.0, 1.1 );
+    vec_3 test_pt_outside( 1.49, 1.2, 1.1 );
 
     cout << "Total nodes = " << so.total_nodes() << endl;
 
@@ -66,9 +66,9 @@ namespace sot {
     remove_contained_volume_convex( c, so );
 
     cout << "Total nodes = " << so.total_nodes() << endl;
-    vtk_debug_sparse_octree( so );
+    //vtk_debug_sparse_octree( so );
 
-    REQUIRE( !so.occupied( test_pt_outside ) );
+    REQUIRE( so.occupied( test_pt_outside ) );
   }
   
 }
