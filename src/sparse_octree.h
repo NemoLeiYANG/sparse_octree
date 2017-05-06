@@ -12,7 +12,7 @@ namespace sot {
   enum voxel_occupied { VOXEL_OCCUPIED, VOXEL_EMPTY, VOXEL_MIXED};
 
   template<typename T>
-  int contained_extreme_points(const T& convex_volume, box_3& bb) {
+  int contained_extreme_points(const T& convex_volume, const box_3& bb) {
     vec_3 m0(bb.x_min, bb.y_min, bb.z_min);
     vec_3 m1(bb.x_min, bb.y_min, bb.z_max);
     vec_3 m2(bb.x_min, bb.y_max, bb.z_min);
@@ -425,7 +425,7 @@ namespace sot {
       assert(depth <= max_depth);
 
       if (depth == max_depth) {
-	if ( convex_volume.contains_point( bounding_box.center() ) ) {
+	if ( contained_extreme_points( convex_volume, bounding_box ) > 0 ) {
 	  is_occupied = VOXEL_OCCUPIED;
 	  return;
 	}
