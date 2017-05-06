@@ -425,12 +425,13 @@ namespace sot {
       assert(depth <= max_depth);
 
       if (depth == max_depth) {
+	// Sweep box away if anything is contained
 	if ( contained_extreme_points( convex_volume, bounding_box ) > 0 ) {
-	  is_occupied = VOXEL_OCCUPIED;
+	  is_occupied = VOXEL_EMPTY;
 	  return;
 	}
 
-	is_occupied = VOXEL_EMPTY;
+	is_occupied = VOXEL_OCCUPIED;
 
 	return;
       }
