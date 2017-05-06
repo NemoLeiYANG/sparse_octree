@@ -491,10 +491,10 @@ namespace sot {
 	  std::cout << "Removing volume for child box " << child_index << std::endl;
 
 	  box_3 child_box = octant_box(child_index, bounding_box);
-	  remove_contained_volume_convex(convex_volume,
-					 depth + 1,
-					 max_depth,
-					 child_box);
+	  children[child_index]->remove_contained_volume_convex(convex_volume,
+								depth + 1,
+								max_depth,
+								child_box);
 	}
 	
       }
