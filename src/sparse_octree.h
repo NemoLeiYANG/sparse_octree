@@ -419,6 +419,11 @@ namespace sot {
       return tree->centroids(bounding_box());
     }
 
+    template<typename T>
+    void remove_contained_volume_convex(const T& sweeper) {
+      
+    }
+
   };
 
 }

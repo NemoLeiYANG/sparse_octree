@@ -15,7 +15,8 @@ INCLUDE_DIRECTORIES(./src/)
 
 SET(CPP_FILES ./src/vtk_debug.cpp
 	      ./src/sparse_octree.cpp
-	      ./src/cylinder.cpp)
+	      ./src/cylinder.cpp
+	      ./src/volume_removal.cpp)
 
 SET(TEST_FILES ./test/sparse_octree_tests.cpp
 	       ./test/volume_containment_tests.cpp)
