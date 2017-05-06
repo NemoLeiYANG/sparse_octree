@@ -404,7 +404,20 @@ namespace sot {
 					const int depth,
 					const int max_depth,
 					const box_3 bounding_box) {
-      
+
+      assert(depth <= max_depth);
+
+      if (depth == max_depth) {
+	if ( convex_volume.contains_point( bounding_box.center() ) ) {
+	  is_occupied = VOXEL_EMPTY;
+	  return;
+	}
+
+	is_occupied = VOXEL_OCCUPIED;
+
+	return;
+      }
+
       // Test whether sub-boxes are contained
       std::vector<int> fully_contained;
       std::vector<int> not_contained;
@@ -436,8 +449,52 @@ namespace sot {
 	return;
       }
 
-      
+      for (auto& f : fully_contained) {
+	partially_contained.push_back(f);
+      }
 
+      std::cout << "# partially contained = " << partially_contained.size() <<
+	std::endl;
+
+      // If the voxel was previously fully occupied break it
+      // down to its occupied children
+      if (is_occupied == VOXEL_OCCUPIED) {
+	std::cout << "Setting children occupied" << std::endl;
+	initialize_children_occupied();
+      }
+
+      for (auto child_index : partially_contained) {
+
+	std::cout << "Next index = " << child_index << std::endl;
+
+	if (children[child_index] != nullptr) {
+
+	  std::cout << "Removing volume for child box " << child_index << std::endl;
+
+	  box_3 child_box = octant_box(child_index, bounding_box);
+	  remove_contained_volume_convex(convex_volume,
+					 depth + 1,
+					 max_depth,
+					 child_box);
+	}
+	
+      }
+
+    }
+
+    void initialize_children_occupied() {
+      reset_children();
+
+      for (int i = 0; i < 8; i++) {
+	children[i] = new sp_tree();
+	children[i]->is_occupied = VOXEL_OCCUPIED;
+      }
+
+    }
+
+    void set_all_occupied() {
+      reset_children();
+      is_occupied = VOXEL_OCCUPIED;
     }
 
   };
@@ -530,6 +587,10 @@ namespace sot {
 
     std::vector<vec_3> centroids() const {
       return tree->centroids(bounding_box());
+    }
+
+    void set_all_occupied() {
+      tree->set_all_occupied();
     }
 
     template<typename T>

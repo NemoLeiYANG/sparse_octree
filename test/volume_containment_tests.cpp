@@ -4,6 +4,8 @@
 #include "sparse_octree.h"
 #include "volume_removal.h"
 
+using namespace std;
+
 namespace sot {
 
   TEST_CASE("Cylinder contains entire volume") {
@@ -30,6 +32,23 @@ namespace sot {
 
     REQUIRE( so.occupied( test_pt ) );
 
+  }
+
+  TEST_CASE("Cylinder contains part of the volume") {
+    sparse_octree so( vec_3( 1.0, 1.0, 1.0 ), 0.5, 5 );
+    so.set_all_occupied();
+
+    vec_3 test_pt_outside( 1.0, 1.49, 1.0 );
+
+    cout << "Total nodes = " << so.total_nodes() << endl;
+
+    cylinder c( vec_3(2.0, 1.0, 1.0), 0.2, 1.5);
+
+    remove_contained_volume_convex( c, so );
+
+    cout << "Total nodes = " << so.total_nodes() << endl;
+
+    REQUIRE( !so.occupied( test_pt_outside ) );
   }
 
 }

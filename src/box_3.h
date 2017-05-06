@@ -12,6 +12,11 @@ namespace sot {
     inline double x_mid() const { return (x_max + x_min) / 2.0; }
     inline double y_mid() const { return (y_max + y_min) / 2.0; }
     inline double z_mid() const { return (z_max + z_min) / 2.0; }
+
+    inline vec_3 center() const {
+      return vec_3( x_mid(), y_mid(), z_mid() );
+    }
+
   };
 
   inline bool in_interval(const double p, const double min, const double max) {
