@@ -4,6 +4,10 @@
 
 namespace sot {
 
+  inline bool in_circle_2D(const vec_3 pt, const vec_3 center, const double radius) {
+    return true;
+  }
+
   class cylinder {
   protected:
     vec_3 base_pt;
@@ -14,7 +18,15 @@ namespace sot {
       base_pt(base), height(p_height), diameter(p_diameter)
     {}
 
+    double radius() const { return diameter / 2.0; }
+
     bool contains_point(const vec_3 pt) const {
+      if ( in_circle_2D( pt, base_pt, radius() ) ) {
+	double z_min = base_pt.z();
+	double z_max = z_min + height;
+	return z_min <= pt.z() && pt.z() <= z_max;
+      }
+
       return false;
     }
 
