@@ -48,7 +48,7 @@ namespace sot {
     remove_contained_volume_convex( c, so );
 
     // cout << "Total nodes = " << so.total_nodes() << endl;
-    // vtk_debug_sparse_octree( so );
+    //vtk_debug_sparse_octree( so );
 
     REQUIRE( !so.occupied( test_pt_outside ) );
   }
