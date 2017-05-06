@@ -43,7 +43,7 @@ namespace sot {
 
     cout << "Total nodes = " << so.total_nodes() << endl;
 
-    cylinder c( vec_3(2.0, 1.0, 1.01), 0.2, 1.5);
+    cylinder c( vec_3(2.0, 1.0, 1.00), 0.2, 1.5);
 
     remove_contained_volume_convex( c, so );
 

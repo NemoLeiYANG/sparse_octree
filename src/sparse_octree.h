@@ -46,7 +46,7 @@ namespace sot {
       }
     }
 
-    box_3 octant_box(const int octant_number, const box_3 box) {
+    box_3 octant_box(const int octant_number, const box_3 box) const {
 
       switch (octant_number) {
       case 0:
@@ -384,17 +384,34 @@ namespace sot {
     }
 
     std::vector<vec_3> centroids(const box_3 bb) const {
-      vec_3 m0(bb.x_min, bb.y_min, bb.z_min);
-      vec_3 m1(bb.x_min, bb.y_min, bb.z_max);
-      vec_3 m2(bb.x_min, bb.y_max, bb.z_min);
-      vec_3 m3(bb.x_min, bb.y_max, bb.z_max);
+      std::vector<vec_3> pts;
 
-      vec_3 m4(bb.x_max, bb.y_min, bb.z_min);
-      vec_3 m5(bb.x_max, bb.y_min, bb.z_max);
-      vec_3 m6(bb.x_max, bb.y_max, bb.z_min);
-      vec_3 m7(bb.x_max, bb.y_max, bb.z_max);
+      if ((is_occupied == VOXEL_MIXED) || (is_occupied == VOXEL_OCCUPIED)) {
+	vec_3 m0(bb.x_min, bb.y_min, bb.z_min);
+	vec_3 m1(bb.x_min, bb.y_min, bb.z_max);
+	vec_3 m2(bb.x_min, bb.y_max, bb.z_min);
+	vec_3 m3(bb.x_min, bb.y_max, bb.z_max);
 
-      std::vector<vec_3> pts{m0, m1, m2, m3, m4, m5, m6, m7};
+	vec_3 m4(bb.x_max, bb.y_min, bb.z_min);
+	vec_3 m5(bb.x_max, bb.y_min, bb.z_max);
+	vec_3 m6(bb.x_max, bb.y_max, bb.z_min);
+	vec_3 m7(bb.x_max, bb.y_max, bb.z_max);
+
+	pts = {m0, m1, m2, m3, m4, m5, m6, m7};
+      }
+
+      if (is_occupied == VOXEL_MIXED) {
+	for (int i = 0; i < 8; i++) {
+	  sp_tree* child = children[i];
+
+	  if (child != nullptr) {
+	    box_3 child_bb = octant_box(i, bb);
+	    for (auto pt : child->centroids(child_bb)) {
+	      pts.push_back(pt);
+	    }
+	  }
+	}
+      }
       
       return pts;
     }
@@ -409,11 +426,11 @@ namespace sot {
 
       if (depth == max_depth) {
 	if ( convex_volume.contains_point( bounding_box.center() ) ) {
-	  is_occupied = VOXEL_EMPTY;
+	  is_occupied = VOXEL_OCCUPIED;
 	  return;
 	}
 
-	is_occupied = VOXEL_OCCUPIED;
+	is_occupied = VOXEL_EMPTY;
 
 	return;
       }
@@ -446,6 +463,7 @@ namespace sot {
       }
 
       if (not_contained.size() == 8) {
+	std::cout << "None contained" << std::endl;
 	return;
       }
 
@@ -461,6 +479,7 @@ namespace sot {
       if (is_occupied == VOXEL_OCCUPIED) {
 	std::cout << "Setting children occupied" << std::endl;
 	initialize_children_occupied();
+	is_occupied = VOXEL_MIXED;
       }
 
       for (auto child_index : partially_contained) {
