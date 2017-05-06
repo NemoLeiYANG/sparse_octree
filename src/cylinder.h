@@ -1,11 +1,21 @@
 #pragma once
 
+#include <cmath>
+
 #include "vec_3.h"
 
 namespace sot {
 
   inline bool in_circle_2D(const vec_3 pt, const vec_3 center, const double radius) {
-    return true;
+    double x_diff = pt.x() - center.x();
+    double x_diff_sq = x_diff*x_diff;
+
+    double y_diff = pt.x() - center.x();
+    double y_diff_sq = y_diff*y_diff;
+
+    double dist = sqrt( x_diff_sq + y_diff_sq );
+    
+    return dist < radius;
   }
 
   class cylinder {
