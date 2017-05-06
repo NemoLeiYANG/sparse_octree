@@ -18,4 +18,18 @@ namespace sot {
     REQUIRE( so.empty( test_pt ) );
   }
 
+  TEST_CASE("Cylinder contains none of the volume") {
+
+    sparse_octree so( vec_3( 3.0, -6.0, 3.0 ), 2.0, 4 );
+    vec_3 test_pt( 3.0, -7.0, 3.0 );
+    so.set_occupied( test_pt );
+
+    cylinder c( vec_3( 30.0, -60.0, -10.0 ), 2, 0.5);
+
+    remove_contained_volume_convex( c, so );
+
+    REQUIRE( so.occupied( test_pt ) );
+
+  }
+
 }

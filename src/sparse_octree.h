@@ -12,8 +12,26 @@ namespace sot {
   enum voxel_occupied { VOXEL_OCCUPIED, VOXEL_EMPTY, VOXEL_MIXED};
 
   template<typename T>
-  int contained_extreme_points(const T& convex_volume, box_3& child_box) {
-    return 8;
+  int contained_extreme_points(const T& convex_volume, box_3& bb) {
+    vec_3 m0(bb.x_min, bb.y_min, bb.z_min);
+    vec_3 m1(bb.x_min, bb.y_min, bb.z_max);
+    vec_3 m2(bb.x_min, bb.y_max, bb.z_min);
+    vec_3 m3(bb.x_min, bb.y_max, bb.z_max);
+
+    vec_3 m4(bb.x_max, bb.y_min, bb.z_min);
+    vec_3 m5(bb.x_max, bb.y_min, bb.z_max);
+    vec_3 m6(bb.x_max, bb.y_max, bb.z_min);
+    vec_3 m7(bb.x_max, bb.y_max, bb.z_max);
+    std::vector<vec_3> extreme_pts{m0, m1, m2, m3, m4, m5, m6, m7};
+
+    int num_contained = 0;
+    for (auto pt : extreme_pts) {
+      if ( convex_volume.contains_point(pt) ) {
+	num_contained++;
+      }
+    }
+
+    return num_contained;
   }
 
   class sp_tree {
@@ -408,12 +426,18 @@ namespace sot {
 	}
       }
 
-      assert(fully_contained.size() == 8);
-
       if (fully_contained.size() == 8) {
 	reset_children();
 	is_occupied = VOXEL_EMPTY;
+	return;
       }
+
+      if (not_contained.size() == 8) {
+	return;
+      }
+
+      
+
     }
 
   };
