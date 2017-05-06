@@ -11,6 +11,11 @@ namespace sot {
 
   enum voxel_occupied { VOXEL_OCCUPIED, VOXEL_EMPTY, VOXEL_MIXED};
 
+  template<typename T>
+  int contained_extreme_points(const T& convex_volume, box_3& child_box) {
+    return 8;
+  }
+
   class sp_tree {
     voxel_occupied is_occupied;
 
@@ -20,6 +25,55 @@ namespace sot {
     sp_tree() : is_occupied(VOXEL_EMPTY) {
       for (unsigned i = 0; i < 8; i++) {
 	children.push_back(nullptr);
+      }
+    }
+
+    box_3 octant_box(const int octant_number, const box_3 box) {
+
+      switch (octant_number) {
+      case 0:
+	return {box.x_min, box.x_mid(),
+	    box.y_min, box.y_mid(),
+	    box.z_min, box.z_mid()};
+
+      case 1:
+
+	return {box.x_min, box.x_mid(),
+	    box.y_min, box.y_mid(),
+	    box.z_mid(), box.z_max};
+
+      case 2:
+	return {box.x_min, box.x_mid(),
+	    box.y_mid(), box.y_max,
+	    box.z_min, box.z_mid()};
+
+      case 3:
+	return {box.x_min, box.x_mid(),
+	    box.y_mid(), box.y_max,
+	    box.z_mid(), box.z_max};
+
+      case 4:
+	return {box.x_mid(), box.x_max,
+	    box.y_min, box.y_mid(),
+	    box.z_min, box.z_mid()};
+
+      case 5:
+	return {box.x_mid(), box.x_max,
+	    box.y_min, box.y_mid(),
+	    box.z_mid(), box.z_max};
+
+      case 6:
+	return {box.x_mid(), box.x_max,
+	    box.y_mid(), box.y_max,
+	    box.z_min, box.z_mid()};
+
+      case 7:
+	return {box.x_mid(), box.x_max,
+	    box.y_mid(), box.y_max,
+	    box.z_mid(), box.z_max};
+
+      default:
+	assert(false);
       }
     }
 
@@ -327,6 +381,41 @@ namespace sot {
       return pts;
     }
 
+    template<typename T>
+    void remove_contained_volume_convex(const T& convex_volume,
+					const int depth,
+					const int max_depth,
+					const box_3 bounding_box) {
+      
+      // Test whether sub-boxes are contained
+      std::vector<int> fully_contained;
+      std::vector<int> not_contained;
+      std::vector<int> partially_contained;
+
+      for (int i = 0; i < 8; i++) {
+	box_3 child_box = octant_box(i, bounding_box);
+	int num_contained_points =
+	  contained_extreme_points(convex_volume, child_box);
+
+	assert(num_contained_points <= 8);
+
+	if (num_contained_points == 0) {
+	  not_contained.push_back(i);
+	} else if (num_contained_points == 8) {
+	  fully_contained.push_back(i);
+	} else {
+	  partially_contained.push_back(i);
+	}
+      }
+
+      assert(fully_contained.size() == 8);
+
+      if (fully_contained.size() == 8) {
+	reset_children();
+	is_occupied = VOXEL_EMPTY;
+      }
+    }
+
   };
 
   class sparse_octree {
@@ -421,7 +510,8 @@ namespace sot {
 
     template<typename T>
     void remove_contained_volume_convex(const T& sweeper) {
-      
+      box_3 bb = bounding_box();
+      tree->remove_contained_volume_convex(sweeper, 1, max_depth, bb);
     }
 
   };
