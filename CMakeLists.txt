@@ -15,7 +15,8 @@ INCLUDE_DIRECTORIES(./src/)
 
 SET(CPP_FILES ./src/vtk_debug.cpp)
 
-SET(TEST_FILES ./test/sparse_octree_tests.cpp)
+SET(TEST_FILES ./test/sparse_octree_tests.cpp
+	       ./test/volume_containment_tests.cpp)
 
 add_executable(all-tests ${TEST_FILES} ${CPP_FILES})
 #target_link_libraries(all-tests )
