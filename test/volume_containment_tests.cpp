@@ -3,6 +3,7 @@
 #include "cylinder.h"
 #include "sparse_octree.h"
 #include "volume_removal.h"
+#include "vtk_debug.h"
 
 using namespace std;
 
@@ -42,11 +43,12 @@ namespace sot {
 
     cout << "Total nodes = " << so.total_nodes() << endl;
 
-    cylinder c( vec_3(2.0, 1.0, 1.0), 0.2, 1.5);
+    cylinder c( vec_3(2.0, 1.0, 1.01), 0.2, 1.5);
 
     remove_contained_volume_convex( c, so );
 
     cout << "Total nodes = " << so.total_nodes() << endl;
+    vtk_debug_sparse_octree( so );
 
     REQUIRE( !so.occupied( test_pt_outside ) );
   }
