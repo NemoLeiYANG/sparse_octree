@@ -2,6 +2,7 @@
 
 #include "cylinder.h"
 #include "sparse_octree.h"
+#include "sphere.h"
 #include "volume_removal.h"
 #include "vtk_debug.h"
 
@@ -69,6 +70,21 @@ namespace sot {
     //vtk_debug_sparse_octree( so );
 
     REQUIRE( so.occupied( test_pt_outside ) );
+  }
+
+  TEST_CASE("Cylinder removes volume") {
+    sparse_octree so( vec_3(-1.0, -2.0, 0.0), 1.5, 7 );
+    so.set_all_occupied();
+
+    sphere s( vec_3( -1.0, -2.0, 1.5 ), 0.5 );
+
+    remove_contained_volume_convex( s, so );
+
+    //vtk_debug_sparse_octree( so );
+
+    vec_3 test_pt_inside_sphere( -1.0, -2.0, 1.2 );
+
+    REQUIRE( !so.occupied( test_pt_inside_sphere ) );
   }
   
 }

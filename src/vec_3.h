@@ -1,5 +1,7 @@
 #pragma once
 
+#include <cmath>
+
 namespace sot {
 
   class vec_3 {
@@ -14,5 +16,13 @@ namespace sot {
     inline double z() const { return zc; }
 
   };
+
+  inline vec_3 operator-(const vec_3 l, const vec_3 r) {
+    return vec_3( l.x() - r.x(), l.y() - r.y(), l.z() - r.z() );
+  }
+
+  inline double len(const vec_3 v) {
+    return sqrt( v.x()*v.x() + v.y()*v.y() + v.z()*v.z() );
+  }
 
 }
