@@ -88,14 +88,23 @@ namespace sot {
   }
 
   TEST_CASE("Multipoint path") {
-    double x = 0.0;
-    double y = 0.0;
-
     vector<vec_3> points;
     points.push_back( vec_3( 0.0, 0.0, 0.0 ) );
-    points.push_back( vec_3( 0.0, 0.0, 0.0 ) );
+    points.push_back( vec_3( 0.5, 0.0, 0.0 ) );
+    points.push_back( vec_3( 1.0, 0.0, 0.0 ) );
 
-    
+    sparse_octree so( vec_3( 0.5, 0.0, 0.0 ), 1.0, 7 );
+    so.set_all_occupied();
+
+    cylinder cutter( vec_3( 0.0, 0.0, 0.0 ), 2.0, 0.5 );
+
+    sweep_away_path( cutter, so );
+
+    vtk_debug_sparse_octree( so );
+
+    vec_3 test_pt( 0.73, 0.2, 0.3 );
+
+    REQUIRE( so.empty( test_pt ) );
   }
   
 }

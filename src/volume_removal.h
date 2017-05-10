@@ -9,4 +9,10 @@ namespace sot {
     volume.remove_contained_volume_convex(sweeper);
   }
 
+  template<typename T>
+  void sweep_away_path(const T& sweeping_volume,
+		       sparse_octree& volume) {
+    
+  }
+
 }
