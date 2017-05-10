@@ -21,19 +21,21 @@ namespace sot {
   class cylinder {
   protected:
     vec_3 base_pt;
-    double height, diameter;
+    double h, diam;
 
   public:
     cylinder(const vec_3 base, const double p_height, const double p_diameter) :
-      base_pt(base), height(p_height), diameter(p_diameter)
+      base_pt(base), h(p_height), diam(p_diameter)
     {}
 
-    double radius() const { return diameter / 2.0; }
+    double height() const { return h; }
+    double diameter() const { return diam; }
+    double radius() const { return diameter() / 2.0; }
 
     bool contains_point(const vec_3 pt) const {
       if ( in_circle_2D( pt, base_pt, radius() ) ) {
 	double z_min = base_pt.z();
-	double z_max = z_min + height;
+	double z_max = z_min + height();
 	return z_min <= pt.z() && pt.z() <= z_max;
       }
 
@@ -41,5 +43,7 @@ namespace sot {
     }
 
   };
+
+  cylinder build_at_position(const vec_3 position, const cylinder c);
 
 }

@@ -98,7 +98,7 @@ namespace sot {
 
     cylinder cutter( vec_3( 0.0, 0.0, 0.0 ), 2.0, 0.5 );
 
-    sweep_away_path( cutter, so );
+    sweep_away_path( cutter, points, so );
 
     vtk_debug_sparse_octree( so );
 
