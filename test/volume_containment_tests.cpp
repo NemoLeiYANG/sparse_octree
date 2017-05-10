@@ -90,12 +90,19 @@ namespace sot {
   TEST_CASE("Multipoint path") {
     vector<vec_3> points;
     points.push_back( vec_3( 0.0, 0.0, 0.0 ) );
-    points.push_back( vec_3( 0.5, 0.0, 0.0 ) );
-    points.push_back( vec_3( 0.75, 0.0, 0.0 ) );
-    points.push_back( vec_3( 0.9, 0.0, 0.0 ) );
-    points.push_back( vec_3( 1.0, 0.0, 0.0 ) );
+    // points.push_back( vec_3( 0.75, 0.0, 0.0 ) );
+    // points.push_back( vec_3( 0.9, 0.0, 0.0 ) );
+    // points.push_back( vec_3( 1.0, 0.0, 0.0 ) );
 
-    sparse_octree so( vec_3( 0.5, 0.0, 0.0 ), 1.0, 7 );
+    points.push_back( vec_3( 0.2, 0.0, 0.0 ) );
+    points.push_back( vec_3( 0.4, 0.0, 0.0 ) );
+    
+    //points.push_back( vec_3( 0.49, 0.0, 0.0 ) );
+    points.push_back( vec_3( 0.5, 0.25, 0.0 ) );
+    points.push_back( vec_3( 0.6, 0.25, 0.0 ) );
+    points.push_back( vec_3( 0.6, 0.25, 0.0 ) );
+
+    sparse_octree so( vec_3( 0.5, 0.0, 0.0 ), 2.0, 7 );
     so.set_all_occupied();
 
     cylinder cutter( vec_3( 0.0, 0.0, 0.0 ), 2.0, 0.5 );
