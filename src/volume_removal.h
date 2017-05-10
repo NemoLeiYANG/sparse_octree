@@ -1,6 +1,7 @@
 #pragma once
 
 #include "sparse_octree.h"
+#include "vtk_debug.h"
 
 namespace sot {
 
@@ -15,7 +16,9 @@ namespace sot {
 		       sparse_octree& volume) {
     for (auto& position : positions) {
       auto at_pos = build_at_position( position, sweeping_volume );
+      std::cout << "Position = " << position.x() << std::endl;
       remove_contained_volume_convex( at_pos, volume );
+      vtk_debug_sparse_octree( volume );
     }
   }
 

@@ -91,6 +91,8 @@ namespace sot {
     vector<vec_3> points;
     points.push_back( vec_3( 0.0, 0.0, 0.0 ) );
     points.push_back( vec_3( 0.5, 0.0, 0.0 ) );
+    points.push_back( vec_3( 0.75, 0.0, 0.0 ) );
+    points.push_back( vec_3( 0.9, 0.0, 0.0 ) );
     points.push_back( vec_3( 1.0, 0.0, 0.0 ) );
 
     sparse_octree so( vec_3( 0.5, 0.0, 0.0 ), 1.0, 7 );
