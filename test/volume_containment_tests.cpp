@@ -86,5 +86,16 @@ namespace sot {
 
     REQUIRE( !so.occupied( test_pt_inside_sphere ) );
   }
+
+  TEST_CASE("Multipoint path") {
+    double x = 0.0;
+    double y = 0.0;
+
+    vector<vec_3> points;
+    points.push_back( vec_3( 0.0, 0.0, 0.0 ) );
+    points.push_back( vec_3( 0.0, 0.0, 0.0 ) );
+
+    
+  }
   
 }
