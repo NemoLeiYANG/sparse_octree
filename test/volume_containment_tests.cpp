@@ -91,7 +91,7 @@ namespace sot {
     sparse_octree so( vec_3( 0.5, 0.0, 0.0 ), 2.0, 7 );
     so.set_all_occupied();
 
-    cylinder cutter( vec_3( 2.0, 0.0, 0.0 ), 2.0, 0.5 );
+    cylinder cutter( vec_3( 0.2, 0.0, 0.0 ), 2.0, 0.5 );
 
     remove_contained_volume_convex( cutter, so );
 

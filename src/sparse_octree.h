@@ -464,7 +464,7 @@ namespace sot {
       }
 
       if (not_contained.size() == 8) {
-	//std::cout << "None contained" << std::endl;
+	std::cout << "None contained" << std::endl;
 	return;
       }
 
