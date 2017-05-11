@@ -76,7 +76,7 @@ namespace sot {
     sparse_octree so( vec_3(-1.0, -2.0, 0.0), 1.5, 7 );
     so.set_all_occupied();
 
-    sphere s( vec_3( -1.0, -2.0, 1.5 ), 0.5 );
+    cylinder s( vec_3( -1.2, -1.9, 0.0 ), 2.0, 0.5 );
 
     remove_contained_volume_convex( s, so );
 
@@ -85,6 +85,22 @@ namespace sot {
     vec_3 test_pt_inside_sphere( -1.0, -2.0, 1.2 );
 
     REQUIRE( !so.occupied( test_pt_inside_sphere ) );
+  }
+
+  TEST_CASE("Failing point from path removal") {
+    sparse_octree so( vec_3( 0.5, 0.0, 0.0 ), 2.0, 7 );
+    so.set_all_occupied();
+
+    cylinder cutter( vec_3( 2.0, 0.0, 0.0 ), 2.0, 0.5 );
+
+    remove_contained_volume_convex( cutter, so );
+
+    vtk_debug_sparse_octree( so );
+
+    vec_3 test_pt_inside_sphere( 0.2, 0.01, 0.10 );
+    
+    REQUIRE( !so.occupied( test_pt_inside_sphere ) );
+    
   }
 
   TEST_CASE("Multipoint path") {
@@ -109,7 +125,7 @@ namespace sot {
 
     sweep_away_path( cutter, points, so );
 
-    vtk_debug_sparse_octree( so );
+    //vtk_debug_sparse_octree( so );
 
     vec_3 test_pt( 0.73, 0.2, 0.3 );
 

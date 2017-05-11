@@ -1,6 +1,6 @@
 cmake_minimum_required(VERSION 2.6)
 
-project(gca)
+project(sparse_octree)
 
 set(VTK_DIR /Users/dillon/Downloads/VTK-build/)
 

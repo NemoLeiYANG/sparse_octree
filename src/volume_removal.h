@@ -21,7 +21,7 @@ namespace sot {
 
       remove_contained_volume_convex( at_pos, volume );
 
-      vtk_debug_sparse_octree( volume );
+      //vtk_debug_sparse_octree( volume );
     }
   }
 
